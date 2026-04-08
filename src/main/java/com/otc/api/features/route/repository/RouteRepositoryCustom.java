@@ -13,4 +13,5 @@ public interface RouteRepositoryCustom {
     List<CustodianListItem> getCustodians(String scheduleId);
 
     boolean saveRoute(RouteSaveRequest request);
+
 }
