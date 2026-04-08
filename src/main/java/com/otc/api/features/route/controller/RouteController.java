@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/Route")
+@RequestMapping("/api/route")
 public class RouteController {
 
     private final RouteService routeService;
@@ -20,6 +20,7 @@ public class RouteController {
         this.routeService = routeService;
     }
 
+    /* To Fetch The Route Cofiguration List  */
     @PostMapping("/list")
     public ResponseEntity<List<RouteListItem>> getList(@RequestBody RouteListRequest request) {
         return ResponseEntity.ok(routeService.getRouteList(request));
@@ -43,6 +44,13 @@ public class RouteController {
         }
         return ResponseEntity.badRequest().body(new MessageResponse("Failed to configure route"));
     }
+
+//    @PostMapping("/details")
+//    public ResponseEntity<?> details (@RequestBody StringIdRequest request){
+//        return ResponseEntity.ok(routeService.getDetails(request.id()));
+//    }
+
+
 
     public record MessageResponse(String message) {
     }

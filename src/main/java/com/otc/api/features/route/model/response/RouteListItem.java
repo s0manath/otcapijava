@@ -7,12 +7,13 @@ public record RouteListItem(
     String activityType,
     String scheduleDate,
     String region,
-    String district,
-    String franchise,
+    String franchiseName,
     String zom,
     String status,
     String routeKey,
     String custodian1,
     String custodian2,
-    String completedDate
+    String districtName,
+    String croType
+
 ) {}

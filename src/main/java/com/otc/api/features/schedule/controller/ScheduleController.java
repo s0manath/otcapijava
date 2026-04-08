@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/Schedule")
+@RequestMapping("/api/schedule")
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
@@ -19,10 +19,13 @@ public class ScheduleController {
         this.scheduleService = scheduleService;
     }
 
+    //Completed fetching list of schedule
     @PostMapping("/list")
     public ResponseEntity<List<ScheduleListItem>> getList(@RequestBody ScheduleListRequest request) {
         return ResponseEntity.ok(scheduleService.getScheduleList(request));
     }
+
+    //ToDo
 
     @PostMapping("/insert")
     public ResponseEntity<?> insert(@RequestBody ScheduleInsertRequest request) {
@@ -48,7 +51,7 @@ public class ScheduleController {
         return ResponseEntity.badRequest().body(new MessageResponse("Deletion Failed! Remove mapping and configure route."));
     }
 
-    @PostMapping("/activityTypes")
+    @PostMapping("/activity-types")
     public ResponseEntity<List<ActivityType>> getActivityTypes() {
         return ResponseEntity.ok(scheduleService.getActivityTypes());
     }
