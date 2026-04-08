@@ -137,6 +137,40 @@ public class RouteRepositoryImpl implements RouteRepositoryCustom {
     }
 
     /**
+     * Retrieves detailed route configuration for a given schedule ID.
+     */
+    @Override
+    public RouteListItem getRouteDetails(String scheduleId) {
+        String sql = """
+                select atm_schedule.Schedule_Id as ID, ATMID, Activity_Type as ActivityType, rm.Routekey, 
+                       c1.CustodianCode as Custodian1, c2.CustodianCode as Custodian2
+                from atm_schedule 
+                left join RouteConfig on ATM_Schedule.Schedule_Id = RouteConfig.Schedule_Id 
+                left join CustodianMaster c1 on c1.CustodianCode = RouteConfig.Custodian1 
+                left join RouteMaster rm on C1.CustodianID = rm.CustodianID and C1.TouchKeyID = rm.TouchKeyID
+                left join CustodianMaster c2 on c2.CustodianCode = RouteConfig.Custodian2 
+                where atm_schedule.Schedule_Id = ?
+                """;
+
+        return jdbcTemplate.queryForObject(sql, (rs, i) -> new RouteListItem(
+                safeString(rs, "ID"),
+                "", // routeId not returned by legacy query
+                safeString(rs, "ATMID"),
+                safeString(rs, "ActivityType"),
+                "", // scheduleDate not returned by legacy query
+                "", // region
+                "", // franchiseName
+                "", // zom
+                "", // status
+                safeString(rs, "Routekey"),
+                safeString(rs, "Custodian1"),
+                safeString(rs, "Custodian2"),
+                "", // districtName
+                ""  // croType
+        ), scheduleId);
+    }
+
+    /**
      * Saves or updates route configuration.
      */
     @Override

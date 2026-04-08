@@ -100,28 +100,30 @@ public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom {
         }
 
 
-    }
-
-    @Override
+    }    @Override
     public boolean updateSchedule(ScheduleUpdateRequest request) {
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("Schedule_Id", request.scheduleId());
+            params.put("ATMID", Optional.ofNullable(request.atmId()).orElse(""));
+            params.put("Activity_Type", request.activityType());
+            params.put("Schedule_Date", request.scheduleDate());
+            
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            params.put("CreatedDate", "");
+            params.put("CreatedBy", "");
+            params.put("LastModifiedDate", LocalDateTime.now().format(formatter));
+            params.put("LastModifiedBy", request.username());
+            params.put("Module", "Update");
+            params.put("Comment", request.comment());
 
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("Schedule_Id", request.scheduleId());
-        params.put("ATMID", request.atmId());
-        params.put("Activity_Type", request.activityType());
-        params.put("Schedule_Date", request.scheduleDate());
-        params.put("CreatedDate", null);
-        params.put("CreatedBy", null);
-        params.put("LastModifiedDate", LocalDateTime.now());
-        params.put("LastModifiedBy", request.username());
-        params.put("Module", "Update");
-        params.put("Comment", request.comment());
-
-        insertUpdateCall.execute(params);
-        return true;
+            insertUpdateCall.execute(params);
+            return true;
+        } catch (Exception ex) {
+            log.error("Update schedule failed: {}", ex.getMessage());
+            return false;
+        }
     }
-
     @Override
     public boolean deleteSchedule(ScheduleDeleteRequest request) {
         Map<String, Object> checkResult = routeCheckCall.execute(

@@ -31,6 +31,10 @@ public class RouteServiceImpl implements RouteService {
         return routeRepository.getCustodians(scheduleId);
     }
 
+    public RouteListItem getRouteDetails(String scheduleId) {
+        return routeRepository.getRouteDetails(scheduleId);
+    }
+
     public boolean saveRoute(RouteSaveRequest request) {
         return routeRepository.saveRoute(request);
     }

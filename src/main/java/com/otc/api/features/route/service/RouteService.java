@@ -12,6 +12,7 @@ public interface RouteService {
 
     List<CustodianListItem> getCustodians(String scheduleId);
 
+    RouteListItem getRouteDetails(String scheduleId);
     boolean saveRoute(RouteSaveRequest request);
 
 }

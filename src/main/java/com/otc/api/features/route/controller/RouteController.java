@@ -45,10 +45,10 @@ public class RouteController {
         return ResponseEntity.badRequest().body(new MessageResponse("Failed to configure route"));
     }
 
-//    @PostMapping("/details")
-//    public ResponseEntity<?> details (@RequestBody StringIdRequest request){
-//        return ResponseEntity.ok(routeService.getDetails(request.id()));
-//    }
+    @PostMapping("/details")
+    public ResponseEntity<RouteListItem> details(@RequestBody StringIdRequest request) {
+        return ResponseEntity.ok(routeService.getRouteDetails(request.id()));
+    }
 
 
 
